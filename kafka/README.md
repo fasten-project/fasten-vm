@@ -1,5 +1,5 @@
 # Apache Kafka settings and configuration
-In order to set up the Apache Kafka, the following considerations should be taken into account:
+In order to set up the Apache Kafka, some considerations for the below properties files should be taken into account. The below properties can be found at `/home/fasten/kafka/config`.
 
 ## server.properties
 - The value of `log.retention.hours` is set to `87600` to make Kafka records permanent.
@@ -10,6 +10,9 @@ In order to set up the Apache Kafka, the following considerations should be take
 ## zookeeper.properties
 - The value of `dataDir` is set to a local folder: `/home/fasten/kafka/zk_data`.
 - Note that the data of both Kafka and Zookeeper are stored on local folders to make their data persistent after rebooting the machine.
+
+## producers.properties
+- To send large Kafka records, adjust the value of `max.request.size` to your desired number (in bytes) either in the `producers.properties` file or the Kafka API's producer config.
 
 ## Troubleshooting
 - Use the following commands in the terminal to restart Kafka and Zookeeper services:
