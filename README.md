@@ -9,6 +9,7 @@ To set up a VM and run the FASTEN demo, the following requirements (i.e dependen
 
 - [VirtualBox](https://www.virtualbox.org/) 
 - [Ubuntu Server 18.04 LTS image](https://releases.ubuntu.com/18.04/)
+
 ## Required packages on the VM
 The following packages should be installed on the VM:
 - [Java JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
