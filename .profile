@@ -28,7 +28,7 @@ fi
 
 export EDITOR=vim
 
-export PATH="$PATH:/home/fasten/kafka/bin"
+export PATH="$PATH:/opt/kafka/bin"
 export PGPASSWORD="fasten1234"
 
 
