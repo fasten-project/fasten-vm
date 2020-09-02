@@ -60,3 +60,13 @@ kafkashow () {
 delete_topic () {
 	kafka-topics.sh --zookeeper localhost:2181 --delete --topic $1;
 }
+
+topic_stats () {
+    echo topic,partitions,records,latest
+    for topic in $(kafka-topics.sh --list --zookeeper localhost:2181 | grep fasten); do  
+        partitions=$(kafka-topics.sh --describe --zookeeper localhost:2181 --topic $topic| grep Replicas|wc -l);    
+        records=$(kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --time -1 --offsets 1 --topic $topic  | awk -F ':' '{sum += $3} END {print sum}');      
+        latest=$(date +'%Y-%m-%d %H:%M:%S' -d "@$(expr $(kafkacat -C -q -b localhost:9092 -t $topic -p 0 -o -1 -e -f '%T') / 1000)");    
+        echo $topic,$partitions,$records,$latest; 
+    done 2>/dev/null
+}
