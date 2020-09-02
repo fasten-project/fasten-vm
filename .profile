@@ -26,6 +26,8 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+export EDITOR=vim
+
 export PATH="$PATH:/home/fasten/kafka/bin"
 export PGPASSWORD="fasten1234"
 
