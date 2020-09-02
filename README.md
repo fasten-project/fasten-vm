@@ -73,9 +73,13 @@ This launches the FASTEN server with all the plug-ins. You can stop the demo by 
 ## OS configuration
 In the `.profile` file, a set of aliases, environment variables, and functions are defined to ease and facilitate running the FASTEN demo. Some of the frequently-used aliases are explained as follows:
 
-- `init_kafka`: Initializes Kafka by deleting topics and consumer groups.
+- `init_kafka`: Initializes Kafka by creating topics.
 - `init_db`: Initializes the PostgreSQL DB (i.e. metadata DB) by creating DBs, tables, users, and indexes.
+- `init_all`: Initializes both Kafka and the metadata DB.
+- `clean_fasten_kafka`: Deletes the Kafka topics and consumer groups.
 - `clean_fasten_db`: Erases the whole metadata DB, including the DB schema, tables, and users.
 - `clean_fasten_data`: Erases all the local data that were produced by running the FASTEN demo. That is, call graphs, repositories, indexed graphs.
-- `start_all`: Launches the FASTEN server with all the plug-ins.
+- `tud_start_all`: Launches the FASTEN server with all the plug-ins that are developed by TU Delft.
+- `start_all`: Starts the whole FASTEN pipeline with all the plug-ins by all partners.
 - `psql_db`: Starts PostgreSQL CLI tool for running SQL queries, etc.
+- `load_java_coords`: Loads Java's Maven coordintes. Note that you should run this once.
