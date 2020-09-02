@@ -12,3 +12,11 @@ To send the Maven coordinates to a Kafka topic, use the following command:
 kafka-console-producer.sh --broker-list localhost:9092 --topic fasten.mvn.test --property "parse.key=true" --property "key.separator=|" < mvn.cords.txt
 ```
 
+## Python coordinates
+
+To send the PyPI package coordinates to a Kafka topic, use the following
+command:
+
+```
+kafka-console-producer.sh --broker-list localhost:9092 --topic fasten.pypi_coords.out < py.coords.json
+```
