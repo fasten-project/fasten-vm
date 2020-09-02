@@ -1,9 +1,10 @@
-# FASTEN DEMO's VM
+# FASTEN DEMO VM
+
 This repository contains necessary scripts and configuration files to set up a virtual machine that has all the requirements and dependencies to run the whole FASTEN pipeline.
 
 To find out more about the scripts, Kafka, and the VM's config, check out the README file in their folders.
 
-# Requirements 
+## Requirements 
 To set up a VM and run the FASTEN demo, the following requirements (i.e dependencies and tools) are needed:
 
 - [VirtualBox](https://www.virtualbox.org/) 
@@ -18,10 +19,10 @@ The following packages should be installed on the VM:
 - [jq](https://stedolan.github.io/jq/download/) 
 - OpenSSH server
 
-# VM Backups
+## VM Backups
 You also download the VM backup (`OVF` file) from [here](https://surfdrive.surf.nl/files/index.php/s/5V8ElLjg5zQmzDY). Use password `fasten` to download the `UbuntuServer-18.04.5-FASTEN.ova` file.
 
-# Running the FASTEN demo on the VM
+## Running the FASTEN demo on the VM
 Follow the below step to run the FASTEN demo:
 
 1- First install the VirtualBox software for your system. 
@@ -66,3 +67,14 @@ This launches the FASTEN server with all the plug-ins. You can stop the demo by 
     - `start_opal`
     - `start_pom_analyzer`
     - `start_repo_cloner`
+
+
+## OS configuration
+In the `.profile` file, a set of aliases, environment variables, and functions are defined to ease and facilitate running the FASTEN demo. Some of the frequently-used aliases are explained as follows:
+
+- `init_kafka`: Initializes Kafka by deleting topics and consumer groups.
+- `init_db`: Initializes the PostgreSQL DB (i.e. metadata DB) by creating DBs, tables, users, and indexes.
+- `clean_fasten_db`: Erases the whole metadata DB, including the DB schema, tables, and users.
+- `clean_fasten_data`: Erases all the local data that were produced by running the FASTEN demo. That is, call graphs, repositories, indexed graphs.
+- `start_all`: Launches the FASTEN server with all the plug-ins.
+- `psql_db`: Starts PostgreSQL CLI tool for running SQL queries, etc.
