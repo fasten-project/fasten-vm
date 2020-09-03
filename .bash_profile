@@ -1,4 +1,5 @@
 if [ -e /home/fasten/.git ]; then
+        echo "Syncing the VM's configs"
         git -c user.name='fasten' -c user.email='fasten@example.com' pull
 else
         echo "Cloning & setting up configurations"
@@ -38,7 +39,11 @@ else
 fi
 
 cd /home/fasten
-cd projects && git pull
+echo "Syncing projects"
+cd projects && find . -mindepth 1 -maxdepth 1 -type d -not -path "./pycg" -not -path "./tud_security_plugin" -print -exec git -c user.name='fasten' -c user.email='fasten@example.com' -C {} pull \;
+echo "Build Java plug-ins if needed"
+cd fasten && gpull | grep -v "Already up to date." && mvn clean install
+cd ..
 cd /home/fasten
 
 source .profile
