@@ -60,8 +60,7 @@ fasten@fasten_vm:~$ load_java_coords
 ```
 fasten@fasten_vm:~$ tmux
 ```
-   - Press `Ctrl+B` and then `:`. Type `source .tmux.conf`.
-   - Same as the previous step, press `Ctrl+B` and `:`. Type `source scripts/tmux-java.conf`.
+   - Press `Ctrl+B` and then `:`. Type `source scripts/tmux-java.conf`.
    - Now, you should be able to see a terminal window with 7 panes and `htop` at the bottom. Press `Ctrl+B` and `o` to switch between panes. In each pane, you can run a plug-in separately by simply hitting `Enter`.
    - To kill the whole session, press `Ctrl+B` and `:`. Type `kill-session`.
 
