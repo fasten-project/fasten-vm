@@ -47,10 +47,8 @@ password: `1234`
 6- Before running the FASTEN demo, run the following commands to clean up the results of the previous runs and initialize the DBs and Kafka:
 
 ```
-fasten@fasten_vm:~$ clean_fasten_data
-fasten@fasten_vm:~$ clean_fasten_db
-fasten@fasten_vm:~$ init_db
-fasten@fasten_vm:~$ init_kafka
+fasten@fasten_vm:~$ clean_up
+fasten@fasten_vm:~$ init_all
 ```
 
 7- Finally, run the following command to run the demo of the FASTEN:
@@ -60,7 +58,7 @@ fasten@fasten_vm:~$ start_all
 This launches the FASTEN server with all the plug-ins. You can stop the demo by pressing CRTL+C.
 
 ## Additional notes
-- The produced CGs, graphs, and repositories are stored at "~/data" folder.
+- The produced CGs, graphs, and repositories are stored at `~/data` folder.
 - You can run `psql_db` command to run the PostgreSQL CLI tool for running queries and etc.
 - Each plug-in can also be launched separately by using the following commands in the terminal:
     - `start_graphdb`
@@ -79,7 +77,8 @@ In the `.profile` file, a set of aliases, environment variables, and functions a
 - `clean_fasten_kafka`: Deletes the Kafka topics and consumer groups.
 - `clean_fasten_db`: Erases the whole metadata DB, including the DB schema, tables, and users.
 - `clean_fasten_data`: Erases all the local data that were produced by running the FASTEN demo. That is, call graphs, repositories, indexed graphs.
-- `tud_start_all`: Launches the FASTEN server with all the plug-ins that are developed by TU Delft.
+- `clean_up`: Erases Kafka's data, DBs, and all local data like graphs etc.
+- `java_start_all`: Launches the FASTEN server with all the plug-ins that are developed by TU Delft.
 - `start_all`: Starts the whole FASTEN pipeline with all the plug-ins by all partners.
 - `psql_db`: Starts PostgreSQL CLI tool for running SQL queries, etc.
 - `load_java_coords`: Loads Java's Maven coordintes. Note that you should run this once.
