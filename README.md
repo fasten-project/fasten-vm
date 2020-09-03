@@ -76,7 +76,8 @@ fasten@fasten_vm:~$ tmux
     - `start_opal`
     - `start_pom_analyzer`
     - `start_repo_cloner`
-
+    - `start_rapid`
+    - `start_pycg`
 
 ## OS configuration
 In the `.profile` file, a set of aliases, environment variables, and functions are defined to ease and facilitate running the FASTEN demo. Some of the frequently-used aliases are explained as follows:
@@ -92,3 +93,4 @@ In the `.profile` file, a set of aliases, environment variables, and functions a
 - `start_all`: Starts the whole FASTEN pipeline with all the plug-ins by all partners.
 - `psql_db`: Starts PostgreSQL CLI tool for running SQL queries, etc.
 - `load_java_coords`: Loads Java's Maven coordintes. Note that you should run this once.
+- `load_py_coords`: Loads Python's PyPi coordinates.
