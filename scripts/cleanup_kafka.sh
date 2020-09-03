@@ -8,6 +8,7 @@ for topic in "${topics[@]}"; do
 done
 
 kafka-topics.sh --zookeeper localhost:2181 --delete --topic fasten.RapidPlugin.log
+kafka-topics.sh --zookeeper localhost:2181 --delete --topic fasten.mvn.test
 
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group eu.fasten.analyzer.pomanalyzer.POMAnalyzerPlugin.POMAnalyzer
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group eu.fasten.analyzer.javacgopal.OPALPlugin.OPAL
