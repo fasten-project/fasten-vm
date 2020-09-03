@@ -44,6 +44,10 @@ alias psql_fasten="psql -w -d fasten_java -U fasten -h 127.0.0.1"
 alias psql_db="psql -w -U postgres -h 127.0.0.1"
 alias init_db="sh /home/fasten/scripts/fasten_initialize_db.sh"
 
+# Git
+alias gpull="git -c user.name='fasten' -c user.email='fasten@example.com' pull"
+alias gmerge="git -c user.name='fasten' -c user.email='fasten@example.com' commit"
+
 # Clean & init
 alias clean_fasten_data="rm -rf /home/fasten/data/mvn && rm -rf /home/fasten/data/repos && rm -rf /home/fasten/data/graphdb"
 alias clean_fasten_db="psql -w -U postgres -h 127.0.0.1 -f /home/fasten/scripts/cleanup_db.sql"
