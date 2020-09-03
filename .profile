@@ -71,6 +71,9 @@ alias start_pycg='python3 /home/fasten/projects/pypi-tools/cg-producer/entrypoin
 # Analysis 
 alias start_rapid='python3 /home/fasten/projects/quality-analyzer/rapidplugin/entrypoint.py fasten.RepoCloner.out fasten.RapidPlugin.out fasten.RapidPlugin.err fasten.RapidPlugin.log localhost:9092 fasten.RapidPlugin.demo 1'
 
+# Starts the plug-ins by all partners
+alias start_all='sh /home/fasten/scripts/start_all.sh'
+
 # Functions
 kafkashow () {
         kafkacat -b localhost:9092 -t $1 -o beginning -q;
