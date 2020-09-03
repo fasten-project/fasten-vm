@@ -48,7 +48,7 @@ alias init_db="sh /home/fasten/scripts/fasten_initialize_db.sh"
 alias clean_fasten_data="rm -rf /home/fasten/data/mvn && rm -rf /home/fasten/data/repos && rm -rf /home/fasten/data/graphdb && sudo rm /var/log/fasten/*"
 alias clean_fasten_db="psql -w -U postgres -h 127.0.0.1 -f /home/fasten/scripts/cleanup_db.sql"
 alias clean_fasten_kafka="bash /home/fasten/scripts/cleanup_kafka.sh"
-alias clean_up="clean_fasten_db && clean_fasten_data && clean_fasten_kafka"
+alias clean_up="clean_fasten_db && clean_fasten_kafka && clean_fasten_data"
 alias init_all="init_db && init_kafka"
 alias start_all='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "POMAnalyzer,RepoCloner,OPAL,MetadataDBExtension,GraphDBExtension" -kt "POMAnalyzer=fasten.mvn.test,RepoCloner=fasten.POMAnalyzer.out,OPAL=fasten.POMAnalyzer.out,MetadataDBExtension=fasten.OPAL.out,GraphDBExtension=fasten.MetadataDBExtension.out" -d "jdbc:postgresql:fasten_java" -du "fasten" -po "OPAL=/home/fasten/data/" -b "/home/fasten/data/repos" -gd "/home/fasten/data/graphdb/"'
 
