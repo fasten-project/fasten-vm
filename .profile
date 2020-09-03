@@ -34,7 +34,6 @@ export PGPASSWORD="fasten1234"
 
 # Aliases
 ## Kafka
-alias clean_fasten_kafka="bash /home/fasten/scripts/cleanup_kafka.sh"
 alias init_kafka="bash /home/fasten/scripts/fasten_init_kafka.sh"
 alias load_java_coords="kafka-console-producer.sh --broker-list localhost:9092 --topic fasten.mvn.test --property 'parse.key=true' --property 'key.separator=|' < /home/fasten/data/mvn.cords.txt"
 alias list_kafka_consumer_groups="kafka-consumer-groups.sh --list --bootstrap-server localhost:9092"
@@ -42,12 +41,13 @@ alias list_kafka_topics="kafka-topics.sh --list --zookeeper localhost:2181"
 
 ## DB
 alias psql_fasten="psql -w -d fasten_java -U fasten -h 127.0.0.1"
-alias clean_fasten_db="psql -w -U postgres -h 127.0.0.1 -f /home/fasten/scripts/cleanup_db.sql"
 alias psql_db="psql -w -U postgres -h 127.0.0.1"
 alias init_db="sh /home/fasten/scripts/fasten_initialize_db.sh"
 
 # Clean & init
 alias clean_fasten_data="rm -rf /home/fasten/data/mvn && rm -rf /home/fasten/data/repos && rm -rf /home/fasten/data/graphdb && sudo rm /var/log/fasten/*"
+alias clean_fasten_db="psql -w -U postgres -h 127.0.0.1 -f /home/fasten/scripts/cleanup_db.sql"
+alias clean_fasten_kafka="bash /home/fasten/scripts/cleanup_kafka.sh"
 alias clean_up="clean_fasten_db && clean_fasten_data && clean_fasten_kafka"
 alias init_all="init_db && init_kafka"
 alias start_all='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "POMAnalyzer,RepoCloner,OPAL,MetadataDBExtension,GraphDBExtension" -kt "POMAnalyzer=fasten.mvn.test,RepoCloner=fasten.POMAnalyzer.out,OPAL=fasten.POMAnalyzer.out,MetadataDBExtension=fasten.OPAL.out,GraphDBExtension=fasten.MetadataDBExtension.out" -d "jdbc:postgresql:fasten_java" -du "fasten" -po "OPAL=/home/fasten/data/" -b "/home/fasten/data/repos" -gd "/home/fasten/data/graphdb/"'
