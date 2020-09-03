@@ -49,13 +49,23 @@ password: `1234`
 ```
 fasten@fasten_vm:~$ clean_up
 fasten@fasten_vm:~$ init_all
+fasten@fasten_vm:~$ load_java_coords
 ```
 
-7- Finally, run the following command to run the demo of the FASTEN:
+**Note:** For the first time, the `init_all` may produce warnings or erros, which can be ignored.
+
+7- Finally, to run the demo, you can either execute `start_all` in the terminal or use `tmux` session which is explained as follows:
+   
+   - First, start `tmux` in terminal (it's recommended to SSH into the VM before starting `tmux`):
 ```
-fasten@fasten_vm:~$ start_all
+fasten@fasten_vm:~$ tmux
 ```
-This launches the FASTEN server with all the plug-ins. You can stop the demo by pressing CRTL+C.
+   - Press `Ctrl+B` and then `:`. Type `source .tmux.conf`.
+   - Same as the previous step, press `Ctrl+B` and `:`. Type `source scripts/tmux-java.conf`.
+   - Now, you should be able to see a terminal window with 7 panes and `htop` at the bottom. Press `Ctrl+B` and `o` to switch between panes. In each pane, you can run a plug-in separately by simply hitting `Enter`.
+   - To kill the whole session, press `Ctrl+B` and `:`. Type `kill-session`.
+
+**Note:** To stop a running instance of the FASTEN server, press `Crtl+C`.
 
 ## Additional notes
 - The produced CGs, graphs, and repositories are stored at `~/data` folder.
@@ -66,7 +76,8 @@ This launches the FASTEN server with all the plug-ins. You can stop the demo by 
     - `start_opal`
     - `start_pom_analyzer`
     - `start_repo_cloner`
-
+    - `start_rapid`
+    - `start_pycg`
 
 ## OS configuration
 In the `.profile` file, a set of aliases, environment variables, and functions are defined to ease and facilitate running the FASTEN demo. Some of the frequently-used aliases are explained as follows:
@@ -82,3 +93,4 @@ In the `.profile` file, a set of aliases, environment variables, and functions a
 - `start_all`: Starts the whole FASTEN pipeline with all the plug-ins by all partners.
 - `psql_db`: Starts PostgreSQL CLI tool for running SQL queries, etc.
 - `load_java_coords`: Loads Java's Maven coordintes. Note that you should run this once.
+- `load_py_coords`: Loads Python's PyPi coordinates.

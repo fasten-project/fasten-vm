@@ -36,6 +36,7 @@ export PGPASSWORD="fasten1234"
 ## Kafka
 alias init_kafka="bash /home/fasten/scripts/fasten_init_kafka.sh"
 alias load_java_coords="kafka-console-producer.sh --broker-list localhost:9092 --topic fasten.mvn.test --property 'parse.key=true' --property 'key.separator=|' < /home/fasten/data/mvn.cords.txt"
+alias load_py_coords="kafka-console-producer.sh --broker-list localhost:9092 --topic fasten.pypi_coords.out < /home/fasten/data/py.coords.json"
 alias list_kafka_consumer_groups="kafka-consumer-groups.sh --list --bootstrap-server localhost:9092"
 alias list_kafka_topics="kafka-topics.sh --list --zookeeper localhost:2181"
 
