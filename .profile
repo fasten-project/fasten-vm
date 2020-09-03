@@ -52,19 +52,20 @@ alias clean_up="clean_fasten_db && clean_fasten_data && clean_fasten_kafka"
 alias init_all="init_db && init_kafka"
 alias start_all='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "POMAnalyzer,RepoCloner,OPAL,MetadataDBExtension,GraphDBExtension" -kt "POMAnalyzer=fasten.mvn.test,RepoCloner=fasten.POMAnalyzer.out,OPAL=fasten.POMAnalyzer.out,MetadataDBExtension=fasten.OPAL.out,GraphDBExtension=fasten.MetadataDBExtension.out" -d "jdbc:postgresql:fasten_java" -du "fasten" -po "OPAL=/home/fasten/data/" -b "/home/fasten/data/repos" -gd "/home/fasten/data/graphdb/"'
 
-# Start TUD plug-ins
+# Start Java plug-ins
 alias start_opal='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "OPAL" -kt "OPAL=fasten.POMAnalyzer.out" -po "OPAL=/home/fasten/data/"'
 alias start_pom_analyzer='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "POMAnalyzer" -kt "POMAnalyzer=fasten.mvn.test" -d "jdbc:postgresql:fasten_java" -du "fasten"'
 alias start_repo_cloner='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "RepoCloner" -kt "RepoCloner=fasten.POMAnalyzer.out" -b "/home/fasten/data/repos"'
 alias start_metadatadb='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "MetadataDBExtension" -kt "MetadataDBExtension=fasten.OPAL.out" -d "jdbc:postgresql:fasten_java" -du "fasten"'
 alias start_graphdb='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "GraphDBExtension" -kt "GraphDBExtension=fasten.MetadataDBExtension.out" -gd "/home/fasten/data/graphdb"'
 alias start_vul_analyzer='java -cp /home/fasten/projects/tud_security_plugin/vulnerability-plugin-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.analyzer.vulnerabilityplugin.Main -db "jdbc:postgresql:fasten_java" -dbu "fasten" -json_path /home/fasten/projects/tud_security_plugin/data.json'
-alias tud_start_all='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "POMAnalyzer,RepoCloner,OPAL,MetadataDBExtension,GraphDBExtension" -kt "POMAnalyzer=fasten.mvn.test,RepoCloner=fasten.POMAnalyzer.out,OPAL=fasten.POMAnalyzer.out,MetadataDBExtension=fasten.OPAL.out,GraphDBExtension=fasten.MetadataDBExtension.out" -d "jdbc:postgresql:fasten_java" -du "fasten" -po "OPAL=/home/fasten/data/" -b "/home/fasten/data/repos" -gd "/home/fasten/data/graphdb/"'
+alias java_start_all='java -cp /home/fasten/projects/fasten/docker/server/server-0.0.1-SNAPSHOT-with-dependencies.jar eu.fasten.server.FastenServer -p /home/fasten/projects/fasten/docker/plugins/ -k localhost:9092 -pl "POMAnalyzer,RepoCloner,OPAL,MetadataDBExtension,GraphDBExtension" -kt "POMAnalyzer=fasten.mvn.test,RepoCloner=fasten.POMAnalyzer.out,OPAL=fasten.POMAnalyzer.out,MetadataDBExtension=fasten.OPAL.out,GraphDBExtension=fasten.MetadataDBExtension.out" -d "jdbc:postgresql:fasten_java" -du "fasten" -po "OPAL=/home/fasten/data/" -b "/home/fasten/data/repos" -gd "/home/fasten/data/graphdb/"'
 
-# Partners' plug-ins
+# Python plug-ins
 alias start_pycg='python3 /home/fasten/projects/pypi-tools/cg-producer/entrypoint.py fasten.pypi_coords.out fasten.pycg.out fasten.pycg.err 127.0.0.1:9092 fasten.pycg 5 300000'
-alias start_rapid='python3 /home/fasten/projects/quality-analyzer/rapidplugin/entrypoint.py fasten.RepoCloner.out fasten.RapidPlugin.out fasten.RapidPlugin.err fasten.RapidPlugin.log localhost:9092 fasten.RapidPlugin.demo 1'
 
+# Analysis 
+alias start_rapid='python3 /home/fasten/projects/quality-analyzer/rapidplugin/entrypoint.py fasten.RepoCloner.out fasten.RapidPlugin.out fasten.RapidPlugin.err fasten.RapidPlugin.log localhost:9092 fasten.RapidPlugin.demo 1'
 
 # Functions
 kafkashow () {
