@@ -41,7 +41,7 @@ fi
 
 cd /home/fasten
 echo "Syncing projects"
-cd projects && find . -mindepth 1 -maxdepth 1 -type d -not -path "./pycg" -not -path "./tud_security_plugin" -print -exec git -c user.name='fasten' -c user.email='fasten@example.com' -C {} pull \;
+cd projects && find . -mindepth 1 -maxdepth 1 -type d -not -path "./pycg" -not -path "./tud_security_plugin" -not -path "./fasten" -print -exec git -c user.name='fasten' -c user.email='fasten@example.com' -C {} pull \;
 echo "Build Java plug-ins if needed"
 cd fasten && gpull | grep -v "Already up to date." && mvn clean install
 cd ..
