@@ -1,5 +1,5 @@
 if [ -e /home/fasten/.git ]; then
-        git pull
+        git -c user.name='fasten' -c user.email='fasten@example.com' pull
 else
         echo "Cloning & setting up configurations"
         if [ ! -d "/var/log/fasten" ]; then
