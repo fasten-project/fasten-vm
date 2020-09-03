@@ -1,6 +1,7 @@
 if [ -e /home/fasten/.git ]; then
         echo "Syncing the VM's configs"
         git -c user.name='fasten' -c user.email='fasten@example.com' pull
+        source .profile
 else
         echo "Cloning & setting up configurations"
         if [ ! -d "/var/log/fasten" ]; then
