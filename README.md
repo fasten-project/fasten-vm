@@ -21,7 +21,7 @@ The following packages should be installed on the VM:
 - OpenSSH server
 
 ## VM Backups
-You also download the VM backup (`OVF` file) from [here](https://surfdrive.surf.nl/files/index.php/s/5V8ElLjg5zQmzDY). Use password `fasten` to download the `UbuntuServer-18.04.5-FASTEN.ova` file.
+You also download the VM backup (`OVF` file) from [here](https://surfdrive.surf.nl/files/index.php/s/5V8ElLjg5zQmzDY). Use password `fasten` to download the `UbuntuServer-18.04.5-FASTEN-v0.2.ova` file.
 
 ## Running the FASTEN demo on the VM
 Follow the below step to run the FASTEN demo:
@@ -66,7 +66,7 @@ fasten@fasten_vm:~$ tmux
    In each pane, you can run a plug-in separately by simply hitting `Enter`.
    - To kill the whole session, press `Ctrl+A` and `:`. Type `kill-session`.
 
-**Note:** To stop a running instance of the FASTEN server, press `Crtl+C`.
+**Note:** To stop a running instance of the FASTEN server, press `Ctrl+C`.
 
 ## Additional notes
 - The produced CGs, graphs, and repositories are stored at `~/data` folder.
