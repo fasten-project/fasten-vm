@@ -79,6 +79,7 @@ fasten@fasten_vm:~$ tmux
     - `start_repo_cloner`
     - `start_rapid`
     - `start_pycg`
+    - `start_restapi`: To access the REST API on the host OS, use the command `ssh -N fasten@127.0.0.1 -p 2223 -L 127.0.01:8080:127.0.0.1:8080`.
 
 ## OS configuration
 In the `.profile` file, a set of aliases, environment variables, and functions are defined to ease and facilitate running the FASTEN demo. Some of the frequently-used aliases are explained as follows:
