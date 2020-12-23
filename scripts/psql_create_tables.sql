@@ -14,8 +14,15 @@ CREATE TABLE package_versions
     package_id   BIGINT NOT NULL REFERENCES packages (id),
     version      TEXT   NOT NULL,
     cg_generator TEXT   NOT NULL,
+    architecture TEXT,
     created_at   TIMESTAMP,
     metadata     JSONB
+);
+
+CREATE TABLE virtual_implementations
+(
+    virtual_package_version_id BIGINT NOT NULL REFERENCES package_versions (id),
+    package_version_id         BIGINT NOT NULL REFERENCES package_versions (id)
 );
 
 CREATE TABLE dependencies
@@ -23,6 +30,9 @@ CREATE TABLE dependencies
     package_version_id BIGINT NOT NULL REFERENCES package_versions (id),
     dependency_id      BIGINT NOT NULL REFERENCES packages (id),
     version_range      TEXT[] NOT NULL,
+    architecture       TEXT[],
+    dependency_type    TEXT[],
+    alternative_group  BIGINT,
     metadata           JSONB
 );
 
@@ -73,29 +83,41 @@ CREATE TABLE callables
     fasten_uri       TEXT    NOT NULL,
     is_internal_call BOOLEAN NOT NULL,
     created_at       TIMESTAMP,
+    line_start       INTEGER,
+    line_end         INTEGER,
     metadata         JSONB
+);
+
+CREATE TYPE RECEIVER_TYPE AS ENUM ('static', 'dynamic', 'virtual', 'interface', 'special');
+
+CREATE TYPE RECEIVER AS
+(
+    line         INTEGER,
+    type         RECEIVER_TYPE,
+    receiver_uri TEXT
 );
 
 CREATE TABLE edges
 (
-    source_id BIGINT NOT NULL REFERENCES callables (id),
-    target_id BIGINT NOT NULL REFERENCES callables (id),
-    metadata  JSONB  NOT NULL
+    source_id BIGINT     NOT NULL REFERENCES callables (id),
+    target_id BIGINT     NOT NULL REFERENCES callables (id),
+    receivers RECEIVER[] NOT NULL,
+    metadata  JSONB
 );
 
-CREATE INDEX CONCURRENTLY package_versions_package_id ON package_versions USING btree (package_id);
-CREATE INDEX CONCURRENTLY dependencies_package_version_id ON dependencies USING btree (package_version_id);
-CREATE INDEX CONCURRENTLY dependencies_dependency_id ON dependencies USING btree (dependency_id);
-CREATE INDEX CONCURRENTLY files_package_version_id ON files USING btree (package_version_id);
-CREATE INDEX CONCURRENTLY modules_package_version_id ON modules USING btree (package_version_id);
-CREATE INDEX CONCURRENTLY module_contents_module_id ON module_contents USING btree (module_id);
-CREATE INDEX CONCURRENTLY module_contents_file_id ON module_contents USING btree (file_id);
-CREATE INDEX CONCURRENTLY binary_modules_package_version_id ON binary_modules USING btree (package_version_id);
-CREATE INDEX CONCURRENTLY binary_module_contents_binary_module_id ON binary_module_contents USING btree (binary_module_id);
-CREATE INDEX CONCURRENTLY binary_module_contents_file_id ON binary_module_contents USING btree (file_id);
-CREATE INDEX CONCURRENTLY callables_module_id ON callables USING btree (module_id);
-CREATE INDEX CONCURRENTLY edges_source_id ON edges USING btree (source_id);
-CREATE INDEX CONCURRENTLY edges_target_id ON edges USING btree (target_id);
+-- CREATE INDEX CONCURRENTLY package_versions_package_id ON package_versions USING btree (package_id);
+-- CREATE INDEX CONCURRENTLY dependencies_package_version_id ON dependencies USING btree (package_version_id);
+-- CREATE INDEX CONCURRENTLY dependencies_dependency_id ON dependencies USING btree (dependency_id);
+-- CREATE INDEX CONCURRENTLY files_package_version_id ON files USING btree (package_version_id);
+-- CREATE INDEX CONCURRENTLY modules_package_version_id ON modules USING btree (package_version_id);
+-- CREATE INDEX CONCURRENTLY module_contents_module_id ON module_contents USING btree (module_id);
+-- CREATE INDEX CONCURRENTLY module_contents_file_id ON module_contents USING btree (file_id);
+-- CREATE INDEX CONCURRENTLY binary_modules_package_version_id ON binary_modules USING btree (package_version_id);
+-- CREATE INDEX CONCURRENTLY binary_module_contents_binary_module_id ON binary_module_contents USING btree (binary_module_id);
+-- CREATE INDEX CONCURRENTLY binary_module_contents_file_id ON binary_module_contents USING btree (file_id);
+-- CREATE INDEX CONCURRENTLY callables_module_id ON callables USING btree (module_id);
+-- CREATE INDEX CONCURRENTLY edges_source_id ON edges USING btree (source_id);
+-- CREATE INDEX CONCURRENTLY edges_target_id ON edges USING btree (target_id);
 
 CREATE UNIQUE INDEX CONCURRENTLY unique_package_forge ON packages USING btree (package_name, forge);
 ALTER TABLE packages
@@ -104,6 +126,10 @@ ALTER TABLE packages
 CREATE UNIQUE INDEX CONCURRENTLY unique_package_version_generator ON package_versions USING btree (package_id, version, cg_generator);
 ALTER TABLE package_versions
     ADD CONSTRAINT unique_package_version_generator UNIQUE USING INDEX unique_package_version_generator;
+
+CREATE UNIQUE INDEX CONCURRENTLY unique_virtual_implementation ON virtual_implementations USING btree (virtual_package_version_id, package_version_id);
+ALTER TABLE virtual_implementations
+    ADD CONSTRAINT unique_virtual_implementation UNIQUE USING INDEX unique_virtual_implementation;
 
 CREATE UNIQUE INDEX CONCURRENTLY unique_version_dependency_range ON dependencies USING btree (package_version_id, dependency_id, version_range);
 ALTER TABLE dependencies
@@ -152,55 +178,3 @@ ON CONFLICT DO NOTHING;
 INSERT INTO modules (id, package_version_id, namespace)
 VALUES (-1, -1, 'global_external_callables')
 ON CONFLICT DO NOTHING;
-
-CREATE OR REPLACE PROCEDURE is_vulnerable(
-    pkg_name TEXT,
-    pkg_version TEXT)
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    vulnerable_callable_ids INTEGER;
-    vulnerability_ids TEXT;
-BEGIN
-    SELECT INTO vulnerable_callable_ids, vulnerability_ids c3.id, c3.metadata -> 'vulnerabilities' -> 0 -> 'id'
-    FROM callables AS c1
-    JOIN modules ON c1.module_id = modules.id
-    JOIN package_versions ON package_versions.id = modules.package_version_id
-    JOIN packages ON packages.id = package_versions.package_id
-    JOIN edges ON edges.source_id = c1.id
-    JOIN callables AS c2 ON c2.id = edges.target_id
-    JOIN callables AS c3 ON c3.fasten_uri = c2.fasten_uri
-    JOIN modules AS m2 ON m2.id = c3.module_id
-    JOIN (
-        SELECT modules.id
-        FROM packages
-        JOIN package_versions ON package_versions.package_id = packages.id
-        JOIN (
-            SELECT packages.package_name, dep.version_range
-            FROM dependencies AS dep
-            JOIN packages ON packages.id = dep.dependency_id
-            WHERE package_version_id = (
-                SELECT package_versions.id
-                FROM package_versions
-                JOIN packages ON packages.id = package_versions.package_id
-                WHERE packages.package_name = pkg_name
-                AND package_versions.version = pkg_version
-                )
-            ) dep_packages ON (dep_packages.package_name = packages.package_name AND package_versions.version = ANY(dep_packages.version_range))
-            JOIN modules ON package_versions.id = modules.package_version_id
-        ) dep_modules ON dep_modules.id = m2.id
-    WHERE packages.package_name = pkg_name
-    AND package_versions.version = pkg_version
-    AND c1.is_internal_call = 't' 
-    AND c2.is_internal_call = 'f'
-    AND c3.is_internal_call = 't'
-    AND c3.metadata -> 'vulnerabilities' IS NOT NULL;
-    -- Print information
-    IF vulnerable_callable_ids IS NOT NULL THEN
-        RAISE INFO '! -- ALERT --!';
-        RAISE INFO 'Found vulnerablitiy % in callable with ID: %', vulnerability_ids, vulnerable_callable_ids;
-    ELSE
-        RAISE INFO '√ -- SAFE -- √';
-    END IF;
-END;
-$$;
