@@ -1,5 +1,7 @@
 # FASTEN DEMO VM
 
+⚠ Archived repository: this repository is now archive. If you are willing to test/execute FASTEN we recommend to use [FASTEN Docker deployment](https://github.com/fasten-project/fasten-docker-deployment) that provides a Docker Compose setup for running the full FASTEN pipeline. 
+
 This repository contains necessary scripts and configuration files to set up a virtual machine that has all the requirements and dependencies to run the whole FASTEN pipeline.
 
 To find out more about the scripts, Kafka, and the VM's config, check out the README file in their folders.
